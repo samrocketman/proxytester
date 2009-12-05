@@ -1,0 +1,40 @@
+This software was written in Python and JavaScript!
+
+v0.5 ????
+1.	Generates a unique list
+
+v0.4 Dec 03, 2009
+1.	Now uses multithreading to process requests faster.  Processes
+	4 requests at a time like a web browser.  Now it processes 
+	2000 proxy servers in around 23 minutes when before it took
+	hours.
+2.	Added a new library for pooling thread requests.
+3.	Now with timestamping.  Shows you when the script started, when 
+	it ended, and how long it ran.
+4.	Other minor bug fixes
+5.	Updated the rules for the generated wpad.dat
+6.	Updated generate_wpad.bat to remove binary pyc files
+
+
+v0.3 Dec 01, 2009
+1.	MAJOR bug fixes for excluding protocols in wpad-head.js. Excludes 
+	weren't previously working at all!
+2.	Simplified some methods by defining additional functions in 
+	wpad-head.js
+3.	Further optimized the process of request testing for excludes by 
+	reordering when the excludes are called so proxying is now faster!
+4.	Implemented advanced logging so if a user encounters errors they 
+	can report it to me with sufficient information.
+5.	Added a few configuration options to wpad.dat so users can easily
+	download and customize it for themselves own.
+6.	Added thorough documentation to wpad.dat so users can easily 
+	understand the options
+7.	Created some bookmarklets to assist mining a list of proxies from 
+	online sources which are located in the lists folder.
+
+v0.2 Dec 01, 2009
+1.	Added a new option RESTRICTED_URL to check-status-proxy-address.py
+2.	Spacing change to wpad-foot.js
+
+v0.1 Nov 30, 2009
+1.	First Release

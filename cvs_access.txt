@@ -1,0 +1,6 @@
+#Setup and add a new module
+ssh -l sag47 proxytest.cvs.sourceforge.net
+cvs -d:ext:sag47@proxytest.cvs.sf.net:/cvsroot/proxytest checkout ./
+mkdir my_new_module
+cvs add my_new_module
+cvs commit
