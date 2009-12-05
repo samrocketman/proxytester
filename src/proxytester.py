@@ -1,3 +1,8 @@
+"""
+    Main driver for application
+    Author: Sam Gleske
+"""
+
 import urllib2, socket, sys
 from lib.ThreadPool import *
 from lib.SwitchParser import *

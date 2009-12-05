@@ -1,4 +1,7 @@
-#Compare two lists and only append unique values
+"""
+    Compare two lists and only append unique values
+    Author: Sam Gleske
+"""
 #usage example
 #someList=UniqueList(someList).unique
 import sys, os.path
