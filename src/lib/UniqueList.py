@@ -1,5 +1,6 @@
 #Compare two lists and only append unique values
-#from json.decoder import uni
+#usage example
+#someList=UniqueList(someList).unique
 import sys, os.path
 
 NEW_LINE="\n"

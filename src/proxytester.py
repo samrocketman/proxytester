@@ -1,5 +1,7 @@
 import urllib2, socket, sys
 from lib.ThreadPool import *
+from lib.SwitchParser import *
+from lib.UniqueList import UniqueList
 from time import sleep
 from time import ctime
 
@@ -9,6 +11,7 @@ from time import ctime
 # set value to 3 for average performance proxies
 # set value to 5 or more for slower proxies
 # TIMEOUT is in seconds
+
 TIMEOUT=3
 
 # Enter URL which the proxies will attempt to connect to
