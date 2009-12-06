@@ -1,51 +1,70 @@
-"""
+#!/usr/bin/env python
+'''
+    Created Dec 1, 2009
     Main driver for application
     Author: Sam Gleske
-"""
+'''
 
-import urllib2, socket, sys
+
+import urllib2
+import socket
+import sys
+import os.path
 from lib.ThreadPool import *
 from lib.SwitchParser import *
 from lib.UniqueList import UniqueList
+from lib.GenerateWPAD import *
 from time import sleep
 from time import ctime
+from sys import exit
 
-# If the proxy takes longer than 3 seconds to respond then it's too slow for broadband connections
-# Dialup may need 5-10 seconds or longer
-# set value to 1 for highest performance proxies (this will drastically decrease the amount of available proxies)
-# set value to 3 for average performance proxies
-# set value to 5 or more for slower proxies
-# TIMEOUT is in seconds
+TAB = "\t"
+NEW_LINE = "\n"
+wpad=GenerateWPAD()
 
-TIMEOUT=3
+""" make configuration adjustments based on given arguments """
+config=SwitchParser(sys.argv)
 
-# Enter URL which the proxies will attempt to connect to
-# This can be any URL
-# If you are attempting to access a particular restricted URL then use that
-RESTRICTED_URL='http://www.google.com'
+print "Generate wpad.dat:", str(config.WPAD)
+if config.Threads > 1:
+    print "Multi-Threading: Enabled"
+else:
+    print "Multi-Threading: Disabled"
+print "Testing URL:", config.restrictedURL
+print "Proxy Timeout:", str(config.Timeout)
+print "Unique List:", str(config.unique)
 
-#Specify the number of threads (do not change unless you know what you're doing)
-THREADS=4
+#remove duplicate file entries
+config.fileList=UniqueList(config.fileList).unique
 
+#test to make sure all files exist
+for filename in config.fileList:
+    if not os.path.isfile(filename):
+        print "All files in your fileList must exist!"
+        print config.syntaxErr()
+        exit()
+    elif filename == config.outFile:
+        print "One of your fileList files are the same as your outFile"
+        print config.syntaxErr()
+if not config.quietMode :
+    if os.path.isfile(config.outFile) :
+        answer=raw_input("It appears your outFile already exists!" + NEW_LINE + "Do you want to overwrite (Y/N)?: ")
+        if answer.upper() not in ('Y','YE','YES') :
+            print "User aborted command!"
+            exit()
 
+#testing swich accuracy only
+#print "config.outFile: " + config.outFile
+#print "config.fileList: " + str(config.fileList)
+#print "config.WPAD: " + str(config.WPAD)
+#print "config.Threads: " + str(config.Threads)
+#print "config.quietMode: " + str(config.quietMode)
+#print "config.restrictedURL: " + config.restrictedURL
+#print "config.Timeout: " + str(config.Timeout)
+#print "config.unique:", str(config.unique)
+#exit()
 
-
-
-
-
-
-
-
-
-
-
-
-
-#No need to edit beyond this point
-
-#Create a new thread for each proxy to be checked
 # the status will be True if the proxy is good for use!
-
 def checkProxy(pip):
     status=-1
     try:
@@ -53,7 +72,7 @@ def checkProxy(pip):
         opener = urllib2.build_opener(proxy_handler)
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         urllib2.install_opener(opener)        
-        req = urllib2.Request(RESTRICTED_URL)
+        req = urllib2.Request(config.restrictedURL)
         sock = urllib2.urlopen(req)
     except urllib2.HTTPError, e:
         print 'Error code: ', e.code
@@ -78,69 +97,53 @@ def waitTask(timeout):
 #    print "timeout executed"
     sleep(timeout)
 
-    
-
-#Old threading method which hit max threads and threw errors.  plus bandwidth could not handle the unlimited amount of threads.
-#class checkProxy(Thread):
-#    def __init__(self,pip):
-#        Thread.__init__(self)
-#        self.pip = pip
-#        self.status = None
-#    def run(self):
-#        try:
-#            proxy_handler = urllib2.ProxyHandler({'http': self.pip})
-#            opener = urllib2.build_opener(proxy_handler)
-#            opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-#            urllib2.install_opener(opener)        
-#            req = urllib2.Request(RESTRICTED_URL)
-#            sock = urllib2.urlopen(req)
-#        except urllib2.HTTPError, e:
-#            print e
-#            #print 'Error code: ', e.code
-#            #print "Bad Proxy", self.pip
-#            self.status = False
-#        except Exception, detail:
-#            print detail
-#            #print "ERROR:", detail
-#            #print "Bad Proxy", self.pip
-#            self.status = False
-#        if self.status == None:
-#            print self.pip, "is working"
-#            self.status = True
 
 started = ctime()
-socket.setdefaulttimeout(TIMEOUT)
-pool = ThreadPool(THREADS)
-
-TAB = "\t"
-NEW_LINE = "\n"
+socket.setdefaulttimeout(config.Timeout)
+pool = ThreadPool(config.Threads)
 
 # read the list of proxy IPs in proxyList
-#proxyList = ['221.214.27.253:808'] # there are two sample proxy ip
-f = open('proxylist.txt','r')
-fileContents = f.read()
-proxyList = fileContents.split(NEW_LINE)
-f.close()
+proxyList=[]
+for filepath in config.fileList:
+        f=open(filepath, 'r')
+        fileContents = f.read()
+        contentsList = fileContents.split(NEW_LINE)
+        f.close()
+        for line in contentsList:
+            proxyList.append(line)
+if config.unique :
+    proxyList=UniqueList(proxyList).unique
 
+if config.WPAD:
+    #test for wpad overwrite
+    if not config.quietMode :
+        if os.path.isfile('wpad.dat') :
+            answer=raw_input("It appears your wpad.dat file already exists!" + NEW_LINE + "Do you want to overwrite (Y/N)?: ")
+            if answer.upper() not in ('Y','YE','YES') :
+                print "User aborted command!"
+                exit()
 
-f = open('wpad.dat', 'w')
-n = open('new_list.txt', 'w')
-#write the wpad header
-h = open('includes/wpad-head.js')
-fileContents = h.read()
-f.write(fileContents)
-h.close()
+    f = open('wpad.dat', 'w')
+    
+    #write the wpad header
+    for line in wpad.head:
+        f.write(line)
+    
+
+n = open(config.outFile, 'w')
 
 # test the proxy list and generate a new list consisting of working proxies
 firstline = False
 tested_proxies = []
+
+#Create a new thread for each proxy to be checked
 for line in proxyList:
     pool.queueTask(checkProxy, line, handleResult)
 
 #This while loop is to account for an unknown bug in ThreadPool.py
 i=0
-while i < THREADS:
-    pool.queueTask(waitTask, TIMEOUT + 2)
+while i < config.Threads:
+    pool.queueTask(waitTask, config.Timeout + 2)
     i = i+1
 
 pool.joinAll()
@@ -148,26 +151,21 @@ pool.joinAll()
 for item in tested_proxies:
     item=str(item)
     n.write(item + NEW_LINE)
-    if not firstline:
-        f.write('"' + item + '"')
-        firstline = True
-    else:
-        f.write(',' + NEW_LINE + TAB + TAB + TAB + '"' + item + '"')
-#        n.write(item + NEW_LINE)
-#        if not firstline :
-#            f.write('"' + item + '"')
-#            firstline = True
-#        else :
-#            f.write(',' + NEW_LINE + TAB + TAB + TAB + '"' + item + '"')
+    if config.WPAD:
+        if not firstline:
+            f.write('"' + item + '"')
+            firstline = True
+        else:
+            f.write(',' + NEW_LINE + TAB + TAB + TAB + '"' + item + '"')
 
 #write the wpad footer
-h = open('includes/wpad-foot.js')
-fileContents = h.read()
-f.write(fileContents)
-h.close()
+if config.WPAD:
+    for line in wpad.foot:
+        f.write(line)
 
 n.close()
-f.close()
+if config.WPAD:
+    f.close()
 ended = ctime()
 print "Process Started:", started
 print "Process Ended:", ended
@@ -178,3 +176,7 @@ started=int(tsplit[0]) * 3600 + int(tsplit[1]) * 60 + int(tsplit[2])
 secs=ended-started
 #Print the runtime in # hrs # mins # secs
 print "Runtime:",secs/3600,"hrs",secs/60 - secs/3600*60,"mins",60*(secs%60)/100,"secs",NEW_LINE
+print "Please wait..."
+# if user force exits the program then force kill all threads
+pool.joinAll(False,False)
+exit(0)

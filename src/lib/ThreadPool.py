@@ -1,3 +1,9 @@
+'''
+    Originally Created Jun 5, 2009
+    Author: Tim Lesher
+    Source: http://code.activestate.com/recipes/203871/
+'''
+
 import threading
 from time import sleep
 from time import ctime
@@ -98,13 +104,16 @@ class ThreadPool:
         """ Clear the task queue and terminate all pooled threads,
         optionally allowing the tasks and threads to finish."""
         
-        # Mark the pool as joining to prevent any more task queueing
-        self.__isJoining = True
-
-        # Wait for tasks to finish
-        if waitForTasks:
-            while self.__tasks != []:
-                sleep(.1)
+        try:
+            # Mark the pool as joining to prevent any more task queueing
+            self.__isJoining = True
+    
+            # Wait for tasks to finish
+            if waitForTasks:
+                while self.__tasks != []:
+                    sleep(.1)
+        except:
+            print "User aborted command!"
 
         # Tell all the threads to quit
         self.__resizeLock.acquire()

@@ -1,9 +1,12 @@
 """
-    Compare two lists and only append unique values
+    Created Dec 3, 2009
+    Compare lists and only append unique values
     Author: Sam Gleske
 """
 #usage example
+#from UniqueList import UniqueList
 #someList=UniqueList(someList).unique
+
 import sys, os.path
 
 NEW_LINE="\n"
@@ -26,7 +29,7 @@ class SwitchParser:
         for argument in commandLineArguments:
             if argument != "" :
                 argument = argument.strip()
-            if argument != "" and argument != "UniqueList.py":
+            if argument != "" and "UniqueList.py" not in argument:
                 arguments.append(argument)
         """Now look at all of the arguments to see if any match"""
         new_list=[]
@@ -77,7 +80,7 @@ if __name__ == "__main__":
             exit()
     for filename in files.fileList:
         if not os.path.isfile(filename):
-            print "All files in you fileList must exist!"
+            print "All files in your fileList must exist!"
             print files.arg_error
             exit()
         elif filename == files.outFile:

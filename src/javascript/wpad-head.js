@@ -17,8 +17,8 @@ after the configuration options for additional warnings and tips information.
 **/
 
 /*
-* Configuration Options
-*/
+ * Configuration Options
+ */
 
 //Enables console logging (true/false, default true)
 var ENABLE_LOGGING=true;
@@ -47,15 +47,15 @@ var ENABLE_PREDEFINED_PROXY_LIST=true;
 var proxylist=[];
 
 /*
-* End of Configuration Options
-*/
+ * End of Configuration Options
+ */
 
 
 
 
 
 /************************************************************************************
-WARNINGS, INFORMATION, AND ADDITIONAL DOCUMENTATION
+             WARNINGS, INFORMATION, AND ADDITIONAL DOCUMENTATION
 *************************************************************************************
 It is highly recommended that you keep this documentation block if you modify 
 this file.
@@ -70,7 +70,7 @@ whenever handling such information. This is not a flaw of this software or
 wpad.dat but more the nature of an anonymous proxy.
 
 Public Proxies and the Law
-According to U.S. law, 18 U.S.C. Section 1030 (Fraud and Related Activity in 
+According to U.S. law, 18 U.S.C. § 1030 (Fraud and Related Activity in 
 Connection with Computers) applies only when anyone who knowingly accesses a 
 computer without authorization or has knowingly exceeds his authorized access on 
 that computer. Because an opened proxy, by default, allows connections and use of 
@@ -92,9 +92,9 @@ is JavaScript for wpad.dat.
 
 Pros/Cons of proxying using my wpad.dat method?
 Pros:
-* Your IP address is constantly changing from the perspective of the web 
+    * Your IP address is constantly changing from the perspective of the web 
 	  server making you impossible to track.
-* There are pre-defined rules which help to protect your information if you 
+    * There are pre-defined rules which help to protect your information if you 
 	  accidently forget to turn off this proxy method while browsing websites 
 	  where financial or personal information are at risk.
 	* If a website is using an encrypted connection then it does not go through
@@ -102,13 +102,13 @@ Pros:
 	  then this is no longer the case.
 
 Cons:
-* Your browsing speed is slightly diminished because you are visiting 
+    * Your browsing speed is slightly diminished because you are visiting 
 	  websites via a proxy.
-* Your browsing habits and information are not guarunteed to be protected 
+    * Your browsing habits and information are not guarunteed to be protected 
 	  from the anonymous proxy if by some happance this file is misconfigured.
 
 *************************************************************************************
-End of Documentation
+                             End of Documentation
 *************************************************************************************/
 
 
@@ -237,50 +237,4 @@ function FindProxyForURL(url, host)
 	if(ENABLE_PREDEFINED_PROXY_LIST)
 	{
 		proxylist=[
-			"66.119.43.36:80",
-			"146.57.249.98:3128",
-			"35.9.27.27:3124",
-			"85.185.25.250:3128",
-			"84.20.81.197:8080",
-			"217.66.208.4:8080",
-			"221.0.181.202:3128",
-			"213.73.40.105:3124",
-			"211.138.124.233:80",
-			"211.138.124.232:80",
-			"211.138.124.211:80",
-			"211.138.124.210:80",
-			"211.138.124.196:80",
-			"203.81.81.49:80",
-			"202.112.126.123:80",
-			"202.23.184.247:3128",
-			"143.215.131.198:3124",
-			"200.238.83.49:3128",
-			"137.226.138.156:3127",
-			"142.150.238.13:3128",
-			"200.249.144.10:3128"
-		];
-	};
-	
-	//Generate a random index for the proxy list
-	try
-	{
-		var index=-1;
-		while(index<0)
-			index=Math.ceil(proxylist.length*Math.random())-1;
-
-		if(proxylist.length)
-		{
-			if(ENABLE_LOGGING)
-				alert("Rule not triggered!\n" + dnsResolve(host) + "\n" + host.toLowerCase() + "\n" + url.toLowerCase() + "\nUsing Proxy: " + proxylist[index]);
-			return "PROXY "+proxylist[index];
-		}
-		else
-			return "DIRECT";
-	}
-	catch(e)
-	{
-		if(ENABLE_LOGGING)
-			alert("An exception has been encountered!\n" + proxylist);
-		return "DIRECT";
-	};
-}
+			
