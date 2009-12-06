@@ -2,6 +2,11 @@ Created by Sam Gleske (sam.mxracer@gmail.com)
 http://www.pages.drexel.edu/~sag47/
 http://www.gleske.net/
 
+Copyright (c) 2009 Proxy Tester Project, Sam Gleske
+Licensed under the MIT License (see command line options for viewing)
+Project website:
+http://sourceforge.net/projects/proxytest
+
 ---- WARNINGS AND INFO ----
 DO NOT, I repeat, DO NOT log into web portals where financial or personal 
 information is at risk using an anonymous/3rd party proxy.  It is possible 

@@ -15,7 +15,7 @@ REM         C:\python26\ (Python 2.6 directory where python.exe is located)
 
 :: No matter where the batch file is run, run it as if being run from the same dir as RunPython2EXE.bat
 %~d0
-cd %~dp0
+cd "%~dp0"
 
 :: Version of software: MAJOR.MINOR.PATCHSET
 set VERSION=0.5
@@ -29,18 +29,34 @@ set MessageUser=""
 set /p MessageUser="  Setup.py (0.1.PATCHSET) (y/n)?: "
 if /I "%MessageUser%" neq "y" Goto End
 
-:: Compile extra modules
+:: Clear old binaries and packages
+del /s /f /q dist
+del /s /f /q packages
 
 :: Compile Windows binary
 cd src
 python setup.py py2exe
 cd ..
 
-:: Put together the distrobution package
+:: Put together the distrobution packages
+set zip=%~dp07za.exe
 mkdir dist
+mkdir dist\lists
+mkdir packages
 copy src\dist\proxytester.exe dist\
+copy src\lists\*.* dist\lists\
 copy license.txt dist\
 copy readme.txt dist\
-del /s /f src
+copy changelog.txt dist\
+del /s /f /q "%~dp0src\dist"
+del /s /f /q "%~dp0src\build"
+cd "%~dp0"
+del /s /q *.pyc
+cd dist
+dir /s /b | "%zip%" a -tzip -xr!*CVS* ..\packages\proxy_tester_win32_v%VERSION%.zip
+cd ..
+dir /s /b | "%zip%" a -tzip -xr!*CVS* -xr!*dist* -xr!*build* -xr!*packages* -xr!*.exe packages\proxy_tester_v%VERSION%_src.zip
 
+echo Done.
 pause
+:End

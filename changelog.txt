@@ -1,7 +1,16 @@
 This software was written in Python and JavaScript!
 
-v0.5 ????
-1.	Generates a unique list
+v0.5 Dec 6, 2009
+1.	Now there is no internal configurations.  Only takes arguments.
+2.	Windows binary executable now available.
+3.	Can add more than 1 file as input at the end of the line instead
+	of just processing a single file.
+4.	New features: Optional multithreading, generate wpad.dat, set 
+	proxy timeout, custom URL to test proxy servers against.  The
+	custom URL is for purposes such as attempting to access a
+	restricted site.
+5.	Fixed bug where pressing Ctrl+C did not stop the program.
+
 
 v0.4 Dec 03, 2009
 1.	Now uses multithreading to process requests faster.  Processes
