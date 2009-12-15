@@ -3,16 +3,20 @@
     Parses command line switches and takes appropriate action
     Author: Sam Gleske
 '''
-import re,sys
+import re,sys,os.path
 from sys import exit
 
 class SwitchParser:
     outFile = None
     fileList = []
+    excludeFile = None
+    excludeServers = []
     WPAD = False
     Threads = 1
     quietMode = False
     restrictedURL = "http://www.google.com/"
+    responseFile = None
+    Response = None
     unique = False
     Timeout = 3
     NEW_LINE = "\n"
@@ -27,14 +31,15 @@ class SwitchParser:
         -o output file for the new proxy list
         -q for suppressing prompts
         -t http timeout for proxy servers
+        -e exclude list
         -u generate a unique proxy server list with no duplicates
         -w generate a wpad.dat file 
     """
-    SWITCHES = ["GET","MT","O","Q","T","U","W"]
+    SWITCHES = ["E","GET","MT","O","Q","RESPONSE","T","U","W"]
     def __init__(self, commandLineArguments):
         arguments = []
         if len(commandLineArguments) <= 1:
-            print self.syntaxErr()
+            self.syntaxErr()
         
         """Clean the arguments up"""
         #the first argument is always the file name which we don't want so always exclude the first argument
@@ -64,70 +69,118 @@ class SwitchParser:
             if argument.find("-",0,1)  > -1:
                 switch = argument.upper()[1:len(argument)]
                 if self.SWITCHES.count(switch) > 0 :
-                    if self.SWITCHES[0] == switch: #The next argument is an internet link
-                        argument = arguments[i+1]
+                    if self.SWITCHES[0] == switch : #The next argument is a file
+                        try:
+                            self.excludeFile = arguments[i+1]
+                        except:
+                            print "Possible missing argument."
+                            self.syntaxErr()
+                        if not os.path.isfile(self.excludeFile) :
+                            print "Eclude file (-E) must exist!"
+                            self.syntaxErr()
+                        f=open(self.excludeFile, 'r')
+                        fileContents = f.read()
+                        contentsList = fileContents.split(self.NEW_LINE)
+                        f.close()
+                        for line in contentsList:
+                            self.excludeServers.append(line)
+                    if self.SWITCHES[1] == switch : #The next argument is an internet link
+                        try:
+                            argument = arguments[i+1]
+                        except:
+                            print "Possible missing argument."
+                            self.syntaxErr()
                         p = re.compile(self.URL_EXPRESSION)
-                        if p.match(argument) == None:
+                        if p.match(argument) == None :
                             print "Restricted URL (-get) must be followed by a http: link."
-                            print self.syntaxErr()
+                            self.syntaxErr()
                         else:
                             self.restrictedURL = argument
-                    if self.SWITCHES[1] == switch:
+                    if self.SWITCHES[2] == switch :
                         self.Threads=4
-                    if self.SWITCHES[2] == switch: #The next argument is a file
-                        self.outFile = arguments[i+1]
-                    if self.SWITCHES[3] == switch: 
+                    if self.SWITCHES[3] == switch : #The next argument is a file
+                        try:
+                            self.outFile = arguments[i+1]
+                        except:
+                            print "Possible missing argument."
+                            self.syntaxErr()
+                    if self.SWITCHES[4] == switch : 
                         self.quietMode = True
-                    if self.SWITCHES[4] == switch:#following argument must be a number
-                        argument=arguments[i+1]
+                    if self.SWITCHES[5] == switch : #The next argument is a file
+                        try:
+                            self.responseFile = arguments[i+1]
+                        except:
+                            print "Possible missing argument."
+                            self.syntaxErr()
+                        if not os.path.isfile(self.responseFile) :
+                            print "Response file (-RESPONSE) must exist!"
+                            self.syntaxErr()
+                        f = open(self.responseFile,'r')
+                        fileContents = f.read()
+                        self.Response = fileContents.split("\n")
+                        for i in range(len(self.Response)):
+                            self.Response[i]=self.Response[i].strip('\r')
+                        f.close()
+                    if self.SWITCHES[6] == switch :#following argument must be a number
+                        try:
+                            argument=arguments[i+1]
+                        except:
+                            print "Possible missing argument."
+                            self.syntaxErr()
                         p=re.compile("^([0-9]+)")
-                        if p.match(argument) == None:
+                        if p.match(argument) == None :
                             print "Timeout (-t) must be followed by a number."
-                            print self.syntaxErr()
-                        else:
-                            try:
+                            self.syntaxErr()
+                        else :
+                            try :
                                 argument=int(argument)
-                            except:
+                            except :
                                 print "Timeout argument must be an integer"
                                 self.syntaxErr()
                             self.Timeout=argument
-                    if self.SWITCHES[5] == switch:
+                    if self.SWITCHES[7] == switch :
                         self.unique = True
-                    if self.SWITCHES[6] == switch:
+                    if self.SWITCHES[8] == switch :
                         self.WPAD = True
-                else:
+                else :
                     print "Invalid argument!"
-                    print self.syntaxErr()
-                    exit()
-            else:
-                if argument != self.outFile and argument != self.restrictedURL and argument != str(self.Timeout):
+                    self.syntaxErr()
+            else :
+                if argument != self.outFile and argument != self.restrictedURL and argument != str(self.Timeout) and argument != self.responseFile and argument != self.excludeFile:
                     new_list.append(argument)
         self.fileList = new_list
-        if self.outFile == None:
+        if self.outFile == None :
             print "Output file not selected!"
-            print self.syntaxErr()
-            exit()
+            self.syntaxErr()
     
-    def showhelp(self):
+    def showhelp(self) :
         print "Proxy Tester takes a proxy list as input and then tests the addresses to       "
         print "ensure that they are still available for use. This program can also generate a "
         print "wpad.dat file which can be used by browsers. The wpad.dat file uses the working"
         print "list of proxies and each time the browser makes a request it will select a     "
         print "random proxy which makes the user virtually impossible to track."
         print ""
+        print "Command Format:"
         print "PROXYTESTER [-GET url] [-MT] [-Q] [-T timeout] [-U] [-W] [-O outFile] fileList"
+        print "PROXYTESTER [-O outFile] [-RESPONSE inFile] [-E inFile] fileList"
         print ""
-        print "  fileList" + self.TAB +      "1 or more file paths to files containing a proxy list. In the"
-        print self.TAB + self.TAB +          "proxy list each new line must contain a single server with   "
-        print self.TAB + self.TAB +          "the following format...                                      "
-        print self.TAB + self.TAB +          "server:port                                                  "
+        print "  fileList" + self.TAB +      "1 or more file paths to a proxy list."
         print ""
         print "  /?" + self.TAB + self.TAB + "Shows this help dialog.  Also -help and --help work.         "
         print "  -GET" + self.TAB + self.TAB+"Specify a link to test the proxy server against.             "
         print self.TAB + self.TAB +          "If -GET url is not specified then this will get Google.com.  "
+        print "  -E" + self.TAB + self.TAB + "Proxy list of proxy servers to exclude from testing. They    "
+        print self.TAB + self.TAB +          "will be excluded if they're in this list even if they work.  "
+        print "  inFile" + self.TAB +        "File path to plain text file to be read."
         print "  -license" + self.TAB +      "Display the MIT License. Also --license works."
         print "  -MT" + self.TAB + self.TAB+ "Multi-Threading support to process proxy lists faster.       "
+        print "  -O" + self.TAB + self.TAB + "Outputs a proxy list of working proxies based on given       "
+        print self.TAB + self.TAB +          "options."
+        print "  outFile" + self.TAB +       "File path where output is written to a plain text file.      "
         print "  -Q" + self.TAB + self.TAB + "Suppress all overwrite prompts.                              "
+        print "  -RESPONSE" + self.TAB +     "Read and compare the server response with the input file to  "
+        print self.TAB + self.TAB +          "ensure the proxy server is working and not just showing any  "
+        print self.TAB + self.TAB +          "HTML page."
         print "  -T" + self.TAB + self.TAB + "Manually set the HTTP timeout for proxy servers.             "
         print "  timeout" + self.TAB +       "Timeout number in seconds. The shorter the timeout the faster"
         print self.TAB + self.TAB +          "the proxies must be to respond.                              "
@@ -141,16 +194,41 @@ class SwitchParser:
         print self.TAB + self.TAB +          "If -GET url is not specified then this will get Google.com.  "
         print "  -W" + self.TAB + self.TAB + "Generates a wpad.dat file.                                   "
         print ""
+        print "Proxy list:"
+        print "  A proxy list is a plain text file. In the proxy list each new line must      "
+        print "  contain a single server with the following format.                           "
+        print "  server:port"
+        print ""
+        print "Command examples:"
+        print "  Test proxy servers and generate a new list (Minimum arguments):              "
+        print self.TAB +           "proxytester -o new_proxy_list.txt proxylist1.txt                       "
+        print "  Test proxy servers, generate a new list, and excluding testing some servers: "
+        print self.TAB +           "proxytester proxylist1.txt -e exclude.txt -o new_proxy_list.txt        "
+        print "  Test proxy servers against a response to ensure that they really work:       "
+        print self.TAB +           "proxytester -get http://www.example.com/proxytest.html -response proxyt"
+        print self.TAB +           "est.html -o new_proxy_list.txt proxylist1.txt"
+        print ""
+        print "The -RESPONSE switch is normally used with the -GET switch but not always.     "
+        print "Sometimes a user wishes to test if the proxy is truly a transparent proxy so   "
+        print "the -RESPONSE switch was devised to ensure this.  Just create your own dummy   "
+        print "html page and upload it to your own web server.  Then call that page using the "
+        print "-GET switch and check it against a local copy of the same html page using the  "
+        print "-RESPONSE switch. This is the best method for testing anonymous proxies!       "
+        print ""
+        print "Options don't have to be in any particular order as long as the command format "
+        print "is followed. Refer to the Command Format to see what switches are followed by  "
+        print "arguments."
+        print ""
         print "Created by Sam Gleske (sam.mxracer@gmail.com)"
         print "Copyright (c) 2009 Proxy Tester Project, Sam Gleske"
         print "Licensed under the MIT License (see command line options for viewing)"
         print "Project website:"
         print "http://sourceforge.net/projects/proxytest"
         exit()
-    def syntaxErr(self):
+    def syntaxErr(self) :
         print "The syntax of the command is incorrect.  Try COMMAND /? or COMMAND --license."
         exit()
-    def showLicense(self):
+    def showLicense(self) :
         print 'MIT Open Source License'
         print ''
         print 'Copyright (c) 2009 Proxy Tester Project, Sam Gleske'

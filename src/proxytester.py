@@ -30,7 +30,12 @@ if config.Threads > 1:
     print "Multi-Threading: Enabled"
 else:
     print "Multi-Threading: Disabled"
+if config.excludeFile == None :
+    print "Exclude certain proxies: False"
+else:
+    print "Exclude certain proxies: False"
 print "Testing URL:", config.restrictedURL
+print "Check proxy response against:",config.responseFile
 print "Proxy Timeout:", str(config.Timeout)
 print "Unique List:", str(config.unique)
 
@@ -41,11 +46,10 @@ config.fileList=UniqueList(config.fileList).unique
 for filename in config.fileList:
     if not os.path.isfile(filename):
         print "All files in your fileList must exist!"
-        print config.syntaxErr()
-        exit()
+        config.syntaxErr()
     elif filename == config.outFile:
         print "One of your fileList files are the same as your outFile"
-        print config.syntaxErr()
+        config.syntaxErr()
 if not config.quietMode :
     if os.path.isfile(config.outFile) :
         answer=raw_input("It appears your outFile already exists!" + NEW_LINE + "Do you want to overwrite (Y/N)?: ")
@@ -74,6 +78,18 @@ def checkProxy(pip):
         urllib2.install_opener(opener)        
         req = urllib2.Request(config.restrictedURL)
         sock = urllib2.urlopen(req)
+        if config.Response != None:
+            response = sock.read();
+            responseList = []
+            responseList = response.split(NEW_LINE)
+            for i in range(len(responseList)) :
+                responseList[i] = responseList[i].strip('\r')
+            for line in responseList :
+                if line not in config.Response:
+                    status = False
+        if not status :
+            print "ERROR: Response test failed"
+            print "Bad Proxy", pip
     except urllib2.HTTPError, e:
         print 'Error code: ', e.code
         print "Bad Proxy", pip
@@ -82,9 +98,10 @@ def checkProxy(pip):
         print "ERROR:", detail
         print "Bad Proxy", pip
         status = False
-    if status == -1:
-        print pip, "is working"
-        status = True
+    finally:
+        if status == -1:
+            print pip, "is working"
+            status = True
     return (pip, status)
 
 #handles the checkProxy class for threading
@@ -138,7 +155,8 @@ tested_proxies = []
 
 #Create a new thread for each proxy to be checked
 for line in proxyList:
-    pool.queueTask(checkProxy, line, handleResult)
+    if line not in config.excludeServers :
+        pool.queueTask(checkProxy, line, handleResult)
 
 #This while loop is to account for an unknown bug in ThreadPool.py
 i=0

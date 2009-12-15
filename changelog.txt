@@ -1,5 +1,22 @@
 This software was written in Python and JavaScript!
 
+v0.6 
+1.	New feature: excludes list option [-E inFile]
+	Excludes list is a proxy list which proxytester excludes from
+	testing and assumes to be bad.
+2.	New feature: custom response [-RESPONSE inFile]
+	Custom response is a remote page to be read and compared to. If
+	the page is different then the proxy server is considered bad 
+	but if the page is the same then the proxy server is good. I got
+	the idea to do this because I kept getting proxy servers that 
+	required some kind of credentials in an HTML format but if you
+	test against a page response then it means the proxy server is
+	more likely to be working. [-RESPONSE inFile] is normally used
+	with [-GET url] but not always.
+3.	Updated the command line documentation to reflect additional 
+	features as well as improved the documentation with examples
+	and more descriptions.
+
 v0.5 Dec 6, 2009
 1.	Now there is no internal configurations.  Only takes arguments.
 2.	Windows binary executable now available.
