@@ -1,6 +1,6 @@
 This software was written in Python and JavaScript!
 
-v0.6 
+v0.6 Dec 15, 2009
 1.	New feature: excludes list option [-E inFile]
 	Excludes list is a proxy list which proxytester excludes from
 	testing and assumes to be bad.

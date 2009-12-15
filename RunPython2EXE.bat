@@ -18,7 +18,7 @@ REM         C:\python26\ (Python 2.6 directory where python.exe is located)
 cd "%~dp0"
 
 :: Version of software: MAJOR.MINOR.PATCHSET
-set VERSION=0.5
+set VERSION=0.6
 
 :: Ask pesky version questions so you don't forget to update them
 echo Current MAJOR.MINOR.PATCHSET=%VERSION%
