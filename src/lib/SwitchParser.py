@@ -154,6 +154,7 @@ class SwitchParser:
             self.syntaxErr()
     
     def showhelp(self) :
+        print "Proxy Tester and WPAD.dat Generator v0.6"
         print "Proxy Tester takes a proxy list as input and then tests the addresses to       "
         print "ensure that they are still available for use. This program can also generate a "
         print "wpad.dat file which can be used by browsers. The wpad.dat file uses the working"

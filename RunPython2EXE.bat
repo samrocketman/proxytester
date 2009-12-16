@@ -28,6 +28,9 @@ if /I "%MessageUser%" neq "y" Goto End
 set MessageUser=""
 set /p MessageUser="  Setup.py (0.1.PATCHSET) (y/n)?: "
 if /I "%MessageUser%" neq "y" Goto End
+set MessageUser=""
+set /p MessageUser="  SwitchParser.py Documentation (0.1.PATCHSET) (y/n)?: "
+if /I "%MessageUser%" neq "y" Goto End
 
 :: Clear old binaries and packages
 del /s /f /q dist
