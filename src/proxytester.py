@@ -80,10 +80,9 @@ def checkProxy(pip):
         sock = urllib2.urlopen(req)
         if config.Response != None:
             response = sock.read();
+            response = response.strip('\r')
             responseList = []
             responseList = response.split(NEW_LINE)
-            for i in range(len(responseList)) :
-                responseList[i] = responseList[i].strip('\r')
             for line in responseList :
                 if line not in config.Response:
                     status = False

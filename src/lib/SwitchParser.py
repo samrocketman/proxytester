@@ -117,9 +117,8 @@ class SwitchParser:
                             self.syntaxErr()
                         f = open(self.responseFile,'r')
                         fileContents = f.read()
-                        self.Response = fileContents.split("\n")
-                        for i in range(len(self.Response)):
-                            self.Response[i]=self.Response[i].strip('\r')
+                        fileContents = fileContents.strip('\r')
+                        self.Response = fileContents.split(self.NEW_LINE)
                         f.close()
                     if self.SWITCHES[6] == switch :#following argument must be a number
                         try:

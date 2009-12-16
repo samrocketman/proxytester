@@ -1,5 +1,11 @@
 This software was written in Python and JavaScript!
 
+v0.7
+1.	Made a few efficiency changes to the -response switch on how
+	it strips carriage returns.
+2.	Updated the command line documentation adding the title of the
+	software and the version number to it.
+
 v0.6 Dec 15, 2009
 1.	New feature: excludes list option [-E inFile]
 	Excludes list is a proxy list which proxytester excludes from
