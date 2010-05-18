@@ -100,9 +100,13 @@ javascript:(function(){
 var arr=document.getElementsByClassName("cells"),b="";
 for(var i=0;i<arr.length;i++)
 {
+var type=arr[i].getElementsByTagName("td")[3].textContent;
+if(type=="high anonymity"||type=="anonymous")
+{
 var server=arr[i].getElementsByTagName("td")[1].textContent;
 var port=arr[i].getElementsByTagName("td")[2].textContent;
 b+=server+":"+port+"<br>";
+}
 }
 var win=window.open("","proxies4");
 win.document.write(b);
@@ -188,9 +192,13 @@ else if(domain=="www.proxys.com.ar")
 var arr=document.getElementsByClassName("cells"),b="";
 for(var i=0;i<arr.length;i++)
 {
+var type=arr[i].getElementsByTagName("td")[3].textContent;
+if(type=="high anonymity"||type=="anonymous")
+{
 var server=arr[i].getElementsByTagName("td")[1].textContent;
 var port=arr[i].getElementsByTagName("td")[2].textContent;
 b+=server+":"+port+"<br>";
+}
 }
 var win=window.open("","proxies4");
 win.document.write(b);
