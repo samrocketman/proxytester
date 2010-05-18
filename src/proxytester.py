@@ -71,6 +71,10 @@ if not config.quietMode :
 # the status will be True if the proxy is good for use!
 def checkProxy(pip):
     status=-1
+    if config.simulateConnect :
+        print pip, "is working"
+        status = True
+        return (pip, status)
     try:
         proxy_handler = urllib2.ProxyHandler({'http': pip})
         opener = urllib2.build_opener(proxy_handler)

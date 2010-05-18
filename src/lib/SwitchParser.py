@@ -17,6 +17,7 @@ class SwitchParser:
     restrictedURL = "http://www.google.com/"
     responseFile = None
     Response = None
+    simulateConnect = False
     unique = False
     Timeout = 3
     NEW_LINE = "\n"
@@ -26,16 +27,18 @@ class SwitchParser:
     
     """
         LIST OF ARGUMENTS:
+        -e exclude list
         -get restricted url to test
         -mt to turn on multithreading
         -o output file for the new proxy list
         -q for suppressing prompts
+        -response for testing against a file from get
+        -sim simulate a working proxy list without connecting to the net
         -t http timeout for proxy servers
-        -e exclude list
         -u generate a unique proxy server list with no duplicates
-        -w generate a wpad.dat file 
+        -w generate a wpad.dat file
     """
-    SWITCHES = ["E","GET","MT","O","Q","RESPONSE","T","U","W"]
+    SWITCHES = ["E","GET","MT","O","Q","RESPONSE","SIM","T","U","W"]
     def __init__(self, commandLineArguments):
         arguments = []
         if len(commandLineArguments) <= 1:
@@ -69,9 +72,9 @@ class SwitchParser:
             if argument.find("-",0,1)  > -1:
                 switch = argument.upper()[1:len(argument)]
                 if self.SWITCHES.count(switch) > 0 :
-                    if self.SWITCHES[0] == switch : #The next argument is a file
+                    if self.SWITCHES[0] == switch : #-e exclude list
                         try:
-                            self.excludeFile = arguments[i+1]
+                            self.excludeFile = arguments[i+1] #The next argument is a file
                         except:
                             print "Possible missing argument."
                             self.syntaxErr()
@@ -84,9 +87,9 @@ class SwitchParser:
                         f.close()
                         for line in contentsList:
                             self.excludeServers.append(line)
-                    if self.SWITCHES[1] == switch : #The next argument is an internet link
+                    if self.SWITCHES[1] == switch : #-get restricted url to test
                         try:
-                            argument = arguments[i+1]
+                            argument = arguments[i+1] #The next argument is an internet link
                         except:
                             print "Possible missing argument."
                             self.syntaxErr()
@@ -96,19 +99,19 @@ class SwitchParser:
                             self.syntaxErr()
                         else:
                             self.restrictedURL = argument
-                    if self.SWITCHES[2] == switch :
+                    if self.SWITCHES[2] == switch : #-mt to turn on multithreading
                         self.Threads=4
-                    if self.SWITCHES[3] == switch : #The next argument is a file
+                    if self.SWITCHES[3] == switch : #-o output file for the new proxy list
                         try:
-                            self.outFile = arguments[i+1]
+                            self.outFile = arguments[i+1] #The next argument is a file
                         except:
                             print "Possible missing argument."
                             self.syntaxErr()
-                    if self.SWITCHES[4] == switch : 
+                    if self.SWITCHES[4] == switch : #-q for suppressing prompts
                         self.quietMode = True
-                    if self.SWITCHES[5] == switch : #The next argument is a file
+                    if self.SWITCHES[5] == switch : #-response for testing against a file from get
                         try:
-                            self.responseFile = arguments[i+1]
+                            self.responseFile = arguments[i+1] #The next argument is a file
                         except:
                             print "Possible missing argument."
                             self.syntaxErr()
@@ -120,9 +123,11 @@ class SwitchParser:
                         fileContents = fileContents.strip('\r')
                         self.Response = fileContents.split(self.NEW_LINE)
                         f.close()
-                    if self.SWITCHES[6] == switch :#following argument must be a number
+                    if self.SWITCHES[6] == switch : #-sim simulate a working proxy list without connecting to the net
+                        self.simulateConnect=True
+                    if self.SWITCHES[7] == switch : #-t http timeout for proxy servers
                         try:
-                            argument=arguments[i+1]
+                            argument=arguments[i+1] #following argument must be a number
                         except:
                             print "Possible missing argument."
                             self.syntaxErr()
@@ -137,9 +142,9 @@ class SwitchParser:
                                 print "Timeout argument must be an integer"
                                 self.syntaxErr()
                             self.Timeout=argument
-                    if self.SWITCHES[7] == switch :
+                    if self.SWITCHES[8] == switch : #-u generate a unique proxy server list with no duplicates
                         self.unique = True
-                    if self.SWITCHES[8] == switch :
+                    if self.SWITCHES[9] == switch : #-w generate a wpad.dat file
                         self.WPAD = True
                 else :
                     print "Invalid argument!"
