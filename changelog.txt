@@ -1,10 +1,21 @@
 This software was written in Python and JavaScript!
 
-v0.7
-1.	Made a few efficiency changes to the -response switch on how
+v0.7 May 18, 2010
+1.	New Feature: proxytester command no longer dependent on -o 
+	switch.
+2.	New Feature: -sim switch to simulate working proxies without
+	connecting to the internet.  This makes it easy to generate
+	wpad.dat files from existing proxy lists quickly.  This 
+	feature also makes automatic generating of an excludes list
+	very easy where this was not possible in previous versions.
+3.	Made a few efficiency changes to the -response switch on how
 	it strips carriage returns.
-2.	Updated the command line documentation adding the title of the
+4.	Updated the command line documentation adding the title of the
 	software and the version number to it.
+5.	Fixed bug in wpad.dat script where it was possible for a null 
+	proxy to be selected.
+6.	Fixed bug in UniqueList.py where __init__() function was 
+	returning a value.
 
 v0.6 Dec 15, 2009
 1.	New feature: excludes list option [-E inFile]

@@ -30,6 +30,10 @@ if config.Threads > 1:
     print "Multi-Threading: Enabled"
 else:
     print "Multi-Threading: Disabled"
+if config.simulateConnect :
+    print "Simulate Working Proxies: On"
+else:
+    print "Simulate Working Proxies: Off"
 if config.excludeFile == None :
     print "Exclude certain proxies: False"
 else:
@@ -40,7 +44,13 @@ print "Proxy Timeout:", str(config.Timeout)
 print "Unique List:", str(config.unique)
 
 #remove duplicate file entries
-config.fileList=UniqueList(config.fileList).unique
+
+if len(config.fileList) != 0 :
+    config.fileList=UniqueList(config.fileList).unique
+else:
+    print "Must specify at least one proxy list file."
+    config.syntaxErr()
+    
 
 #test to make sure all files exist
 for filename in config.fileList:
@@ -51,11 +61,12 @@ for filename in config.fileList:
         print "One of your fileList files are the same as your outFile"
         config.syntaxErr()
 if not config.quietMode :
-    if os.path.isfile(config.outFile) :
-        answer=raw_input("It appears your outFile already exists!" + NEW_LINE + "Do you want to overwrite (Y/N)?: ")
-        if answer.upper() not in ('Y','YE','YES') :
-            print "User aborted command!"
-            exit()
+    if config.outFile != None :
+        if os.path.isfile(config.outFile) :
+            answer=raw_input("It appears your outFile already exists!" + NEW_LINE + "Do you want to overwrite (Y/N)?: ")
+            if answer.upper() not in ('Y','YE','YES') :
+                print "User aborted command!"
+                exit()
 
 #testing swich accuracy only
 #print "config.outFile: " + config.outFile
@@ -149,8 +160,8 @@ if config.WPAD:
     for line in wpad.head:
         f.write(line)
     
-
-n = open(config.outFile, 'w')
+if config.outFile != None :
+    n = open(config.outFile, 'w')
 
 # test the proxy list and generate a new list consisting of working proxies
 firstline = False
@@ -171,7 +182,8 @@ pool.joinAll()
 
 for item in tested_proxies:
     item=str(item)
-    n.write(item + NEW_LINE)
+    if config.outFile != None :
+        n.write(item + NEW_LINE)
     if config.WPAD:
         if not firstline:
             f.write('"' + item + '"')
@@ -183,8 +195,8 @@ for item in tested_proxies:
 if config.WPAD:
     for line in wpad.foot:
         f.write(line)
-
-n.close()
+if config.outFile != None :
+    n.close()
 if config.WPAD:
     f.close()
 ended = ctime()

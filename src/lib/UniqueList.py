@@ -59,14 +59,13 @@ class SwitchParser:
 class UniqueList:
     unique = []
     def __init__(self, someList = []):
-        if len(someList) == 0:
-            return False
         unique = []
         for line in someList:
             if line not in unique:
                 if line != "" or line != None:
                     unique.append(line)
         self.unique = unique
+        return True
 
 # if UniqueList.py is launched from the command line and not used as a library
 if __name__ == "__main__":

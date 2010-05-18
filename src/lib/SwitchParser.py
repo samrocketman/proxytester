@@ -25,19 +25,18 @@ class SwitchParser:
     #Regular Expressions for validation
     URL_EXPRESSION = "^(http:)"
     
-    """
-        LIST OF ARGUMENTS:
-        -e exclude list
-        -get restricted url to test
-        -mt to turn on multithreading
-        -o output file for the new proxy list
-        -q for suppressing prompts
-        -response for testing against a file from get
-        -sim simulate a working proxy list without connecting to the net
-        -t http timeout for proxy servers
-        -u generate a unique proxy server list with no duplicates
-        -w generate a wpad.dat file
-    """
+        # LIST OF ARGUMENTS:
+        # -e exclude list
+        # -get restricted url to test
+        # -mt to turn on multithreading
+        # -o output file for the new proxy list
+        # -q for suppressing prompts
+        # -response for testing against a file from get
+        # -sim simulate a working proxy list without connecting to the net
+        # -t http timeout for proxy servers
+        # -u generate a unique proxy server list with no duplicates
+        # -w generate a wpad.dat file
+        
     SWITCHES = ["E","GET","MT","O","Q","RESPONSE","SIM","T","U","W"]
     def __init__(self, commandLineArguments):
         arguments = []
@@ -153,9 +152,9 @@ class SwitchParser:
                 if argument != self.outFile and argument != self.restrictedURL and argument != str(self.Timeout) and argument != self.responseFile and argument != self.excludeFile:
                     new_list.append(argument)
         self.fileList = new_list
-        if self.outFile == None :
-            print "Output file not selected!"
-            self.syntaxErr()
+        # if self.outFile == None :
+            # print "Output file not selected!"
+            # self.syntaxErr()
     
     def showhelp(self) :
         print "Proxy Tester and WPAD.dat Generator v0.7"
@@ -167,7 +166,7 @@ class SwitchParser:
         print ""
         print "Command Format:"
         print "PROXYTESTER [-GET url] [-MT] [-Q] [-T timeout] [-U] [-W] [-O outFile] fileList"
-        print "PROXYTESTER [-O outFile] [-RESPONSE inFile] [-E inFile] fileList"
+        print "PROXYTESTER [-SIM] [-RESPONSE inFile] [-E inFile] fileList"
         print ""
         print "  fileList" + self.TAB +      "1 or more file paths to a proxy list."
         print ""
@@ -186,6 +185,7 @@ class SwitchParser:
         print "  -RESPONSE" + self.TAB +     "Read and compare the server response with the input file to  "
         print self.TAB + self.TAB +          "ensure the proxy server is working and not just showing any  "
         print self.TAB + self.TAB +          "HTML page."
+        print "  -SIM" + self.TAB+ self.TAB+ "Simulate a working proxy without connecting to the internet. "
         print "  -T" + self.TAB + self.TAB + "Manually set the HTTP timeout for proxy servers.             "
         print "  timeout" + self.TAB +       "Timeout number in seconds. The shorter the timeout the faster"
         print self.TAB + self.TAB +          "the proxies must be to respond.                              "
@@ -212,6 +212,11 @@ class SwitchParser:
         print "  Test proxy servers against a response to ensure that they really work:       "
         print self.TAB +           "proxytester -get http://www.example.com/proxytest.html -response proxyt"
         print self.TAB +           "est.html -o new_proxy_list.txt proxylist1.txt"
+        print "  Generate a wpad.dat file from a proxy list without testing proxies:          "
+        print self.TAB +           "proxytester -sim -w ptoxylist1.txt                                     "
+        print "  Generate excludes file from working proxies and non-working proxies:         "
+        print self.TAB +           "proxytester -mt -u -o new_list.txt proxylist1.txt                      "
+        print self.TAB +           "proxytester -mt -sim -e new_list.txt -o exclude.txt proxylist1.txt     "
         print ""
         print "The -RESPONSE switch is normally used with the -GET switch but not always.     "
         print "Sometimes a user wishes to test if the proxy is truly a transparent proxy so   "
