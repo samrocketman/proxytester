@@ -2,6 +2,7 @@ testing
 javascript:(function(){var domain=document.location.toString().split("//")[1].split("/")[0];alert(domain);})()
 javascript:(function(){var attrib="class",attval="sunblue";for(var i=0;i<document.getElementsByTagName("table").length;i++)if(document.getElementsByTagName("table")[i].getAttribute(attrib)==attval)alert(i);})()
 
+
 http://tools.rosinstrument.com/proxy/
 javascript:(function(){
 var i=0,b="";
@@ -90,6 +91,27 @@ win.document.write(b);
 
 
 
+testing
+javascript:alert(document.getElementsByClassName("cells")[0].getElementsByTagName("td")[0].textContent)
+javascript:alert(document.getElementsByClassName("cells")[0].getElementsByTagName("td")[3].textContent)
+
+http://www.proxys.com.ar/
+javascript:(function(){
+var arr=document.getElementsByClassName("cells"),b="";
+for(var i=0;i<arr.length;i++)
+{
+var server=arr[i].getElementsByTagName("td")[1].textContent;
+var port=arr[i].getElementsByTagName("td")[2].textContent;
+b+=server+":"+port+"<br>";
+}
+var win=window.open("","proxies4");
+win.document.write(b);
+})()
+
+
+
+
+
 All functions combined!
 javascript:(function(){
 var domain=document.location.toString().split("//")[1].split("/")[0];
@@ -159,6 +181,18 @@ var server=arr2[i].firstChild.nextSibling.textContent.replace(/(document[.]write
 b+=server+"<br>";
 }
 var win=window.open("","proxies3");
+win.document.write(b);
+}
+else if(domain=="www.proxys.com.ar")
+{
+var arr=document.getElementsByClassName("cells"),b="";
+for(var i=0;i<arr.length;i++)
+{
+var server=arr[i].getElementsByTagName("td")[1].textContent;
+var port=arr[i].getElementsByTagName("td")[2].textContent;
+b+=server+":"+port+"<br>";
+}
+var win=window.open("","proxies4");
 win.document.write(b);
 }
 else
