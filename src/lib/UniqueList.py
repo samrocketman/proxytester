@@ -65,7 +65,6 @@ class UniqueList:
                 if line != "" or line != None:
                     unique.append(line)
         self.unique = unique
-        return True
 
 # if UniqueList.py is launched from the command line and not used as a library
 if __name__ == "__main__":
