@@ -213,7 +213,7 @@ class SwitchParser:
         print self.TAB +           "proxytester -get http://www.example.com/proxytest.html -response proxyt"
         print self.TAB +           "est.html -o new_proxy_list.txt proxylist1.txt"
         print "  Generate a wpad.dat file from a proxy list without testing proxies:          "
-        print self.TAB +           "proxytester -sim -w ptoxylist1.txt                                     "
+        print self.TAB +           "proxytester -sim -w proxylist1.txt                                     "
         print "  Generate excludes file from working proxies and non-working proxies:         "
         print self.TAB +           "proxytester -mt -u -o new_list.txt proxylist1.txt                      "
         print self.TAB +           "proxytester -mt -sim -e new_list.txt -o exclude.txt proxylist1.txt     "
