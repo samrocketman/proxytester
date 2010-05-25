@@ -50,7 +50,7 @@ if len(config.fileList) != 0 :
 else:
     print "Must specify at least one proxy list file."
     config.syntaxErr()
-    
+
 
 #test to make sure all files exist
 for filename in config.fileList:
@@ -83,14 +83,17 @@ if not config.quietMode :
 def checkProxy(pip):
     status=-1
     if config.simulateConnect :
-        print pip, "is working"
-        status = True
+        if pip != "" :
+            print pip, "is working"
+            status = True
+        else :
+            status = False
         return (pip, status)
     try:
         proxy_handler = urllib2.ProxyHandler({'http': pip})
         opener = urllib2.build_opener(proxy_handler)
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-        urllib2.install_opener(opener)        
+        urllib2.install_opener(opener)
         req = urllib2.Request(config.restrictedURL)
         sock = urllib2.urlopen(req)
         if config.Response != None:
@@ -155,11 +158,11 @@ if config.WPAD:
                 exit()
 
     f = open('wpad.dat', 'w')
-    
+
     #write the wpad header
     for line in wpad.head:
         f.write(line)
-    
+
 if config.outFile != None :
     n = open(config.outFile, 'w')
 

@@ -2,6 +2,12 @@ Created by Sam Gleske (sam.mxracer@gmail.com)
 http://www.pages.drexel.edu/~sag47/
 http://www.gleske.net/
 
+Need help?  Check out the wiki...
+http://sourceforge.net/apps/mediawiki/proxytest/
+
+Still need help?  Ask in the forums...
+http://sourceforge.net/projects/proxytest/forums/
+
 Copyright (c) 2009 Proxy Tester Project, Sam Gleske
 Licensed under the MIT License (see command line options for viewing)
 Project website:

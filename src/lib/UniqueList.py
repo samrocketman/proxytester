@@ -24,7 +24,7 @@ class SwitchParser:
             print "Error! No file arguments!"
             print self.arg_error
             exit()
-        
+
         """Clean the arguments up"""
         for argument in commandLineArguments:
             if argument != "" :
@@ -93,7 +93,7 @@ if __name__ == "__main__":
         f.close()
         for line in contentsList:
             someList.append(line)
-        
+
     f=open(files.outFile,'w')
     someList=UniqueList(someList).unique
     for line in someList:

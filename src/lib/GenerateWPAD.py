@@ -253,7 +253,7 @@ class GenerateWPAD:
                 '\ttry\n',
                 '\t{\n',
                 '\t\tvar index=-1;\n',
-                '\t\twhile(index<0&&proxylist[index].toString()=="")\n',
+                '\t\twhile(index<0)\n',
                 '\t\t\tindex=Math.ceil(proxylist.length*Math.random())-1;\n',
                 '\n',
                 '\t\tif(proxylist.length)\n',

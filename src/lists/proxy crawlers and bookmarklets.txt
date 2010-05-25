@@ -116,6 +116,33 @@ win.document.write(b);
 
 
 
+testing
+javascript:alert(document.getElementsByTagName("table")[4].getElementsByTagName("tr")[2].getElementsByTagName("td")[0].textContent)
+javascript:alert(document.getElementsByTagName("table")[4].getElementsByTagName("tr")[8].getElementsByTagName("td")[2].textContent)
+
+http://www.mrhinkydink.com/proxies.htm
+javascript:(function(){
+var re = /(Anon)/gi;
+var arr=document.getElementsByTagName("table")[4].getElementsByTagName("tr"),b="";
+for(var i=0;i<arr.length;i++)
+{
+if(arr[i].getElementsByTagName("td").length == 8)
+{
+var type=arr[i].getElementsByTagName("td")[2].textContent;
+if(type!="Type"&&re.test(type))
+{
+var server=arr[i].getElementsByTagName("td")[0].textContent;
+var port=arr[i].getElementsByTagName("td")[1].textContent;
+b+=server+":"+port+"<br>";
+}
+}
+}
+var win=window.open("","proxies5");
+win.document.write(b);
+})()
+
+
+
 All functions combined!
 javascript:(function(){
 var domain=document.location.toString().split("//")[1].split("/")[0];
@@ -201,6 +228,26 @@ b+=server+":"+port+"<br>";
 }
 }
 var win=window.open("","proxies4");
+win.document.write(b);
+}
+else if(domain=="www.mrhinkydink.com")
+{
+var re = /(Anon)/gi;
+var arr=document.getElementsByTagName("table")[4].getElementsByTagName("tr"),b="";
+for(var i=0;i<arr.length;i++)
+{
+if(arr[i].getElementsByTagName("td").length == 8)
+{
+var type=arr[i].getElementsByTagName("td")[2].textContent;
+if(type!="Type"&&re.test(type))
+{
+var server=arr[i].getElementsByTagName("td")[0].textContent;
+var port=arr[i].getElementsByTagName("td")[1].textContent;
+b+=server+":"+port+"<br>";
+}
+}
+}
+var win=window.open("","proxies5");
 win.document.write(b);
 }
 else

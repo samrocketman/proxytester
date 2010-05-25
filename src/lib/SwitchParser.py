@@ -24,7 +24,7 @@ class SwitchParser:
     TAB = "\t"
     #Regular Expressions for validation
     URL_EXPRESSION = "^(http:)"
-    
+
         # LIST OF ARGUMENTS:
         # -e exclude list
         # -get restricted url to test
@@ -36,13 +36,13 @@ class SwitchParser:
         # -t http timeout for proxy servers
         # -u generate a unique proxy server list with no duplicates
         # -w generate a wpad.dat file
-        
+
     SWITCHES = ["E","GET","MT","O","Q","RESPONSE","SIM","T","U","W"]
     def __init__(self, commandLineArguments):
         arguments = []
         if len(commandLineArguments) <= 1:
             self.syntaxErr()
-        
+
         """Clean the arguments up"""
         #the first argument is always the file name which we don't want so always exclude the first argument
         firstarg = 0
@@ -51,23 +51,23 @@ class SwitchParser:
                 firstarg = firstarg + 1
                 continue
             firstarg = firstarg + 1
-            
+
             if argument != "" :
                 argument = argument.strip()
             if argument != "":
                 arguments.append(argument)
-        
+
         """Check for documentation requests"""
         if "/?" in arguments or "--help" in arguments or "-help" in arguments :
             self.showhelp()
         elif "--license" in arguments or "-license" in arguments:
             self.showLicense()
-        
+
         """Now look at all of the arguments to see if any match"""
         new_list=[]
         for i in range(len(arguments)):
             argument = arguments[i]
-            
+
             if argument.find("-",0,1)  > -1:
                 switch = argument.upper()[1:len(argument)]
                 if self.SWITCHES.count(switch) > 0 :
@@ -155,9 +155,9 @@ class SwitchParser:
         # if self.outFile == None :
             # print "Output file not selected!"
             # self.syntaxErr()
-    
+
     def showhelp(self) :
-        print "Proxy Tester and WPAD.dat Generator v0.7"
+        print "Proxy Tester and WPAD.dat Generator v0.7.1"
         print "Proxy Tester takes a proxy list as input and then tests the addresses to       "
         print "ensure that they are still available for use. This program can also generate a "
         print "wpad.dat file which can be used by browsers. The wpad.dat file uses the working"

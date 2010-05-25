@@ -6,7 +6,7 @@
 	try
 	{
 		var index=-1;
-		while(index<0&&proxylist[index].toString()=="")
+		while(index<0)
 			index=Math.ceil(proxylist.length*Math.random())-1;
 
 		if(proxylist.length)

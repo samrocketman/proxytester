@@ -1,5 +1,18 @@
 This software was written in Python and JavaScript!
 
+Need help?  Check out the wiki...
+http://sourceforge.net/apps/mediawiki/proxytest/
+
+Still need help?  Ask in the forums...
+http://sourceforge.net/projects/proxytest/forums/
+
+v0.7.1 May 24, 2010
+1.	Fixed bug in wpad.dat which was introduced in v0.7
+	accidentally where wpad.dat threw an exception only creating
+	direct connections and never using the proxies.
+2.	Fixed bug in -sim switch where null lines were tested in the
+	simulation.  This additionally threw errors with wpad.dat.
+
 v0.7 May 18, 2010
 1.	New Feature: proxytester command no longer dependent on -o 
 	switch.

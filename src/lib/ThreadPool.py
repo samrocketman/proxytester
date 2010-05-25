@@ -13,11 +13,11 @@ class ThreadPool:
     """Flexible thread pool class.  Creates a pool of threads, then
     accepts tasks that will be dispatched to the next available
     thread."""
-    
+
     def __init__(self, numThreads):
 
         """Initialize the thread pool with numThreads workers."""
-        
+
         self.__threads = []
         self.__resizeLock = threading.Condition(threading.Lock())
         self.__taskLock = threading.Condition(threading.Lock())
@@ -30,11 +30,11 @@ class ThreadPool:
         """ External method to set the current pool size.  Acquires
         the resizing lock, then calls the internal version to do real
         work."""
-        
+
         # Can't change the thread count if we're shutting down the pool!
         if self.__isJoining:
             return False
-        
+
         self.__resizeLock.acquire()
         try:
             self.__setThreadCountNolock(newNumThreads)
@@ -43,11 +43,11 @@ class ThreadPool:
         return True
 
     def __setThreadCountNolock(self, newNumThreads):
-        
+
         """Set the current pool size, spawning or terminating threads
         if necessary.  Internal use only; assumes the resizing lock is
         held."""
-        
+
         # If we need to grow the pool, do so
         while newNumThreads > len(self.__threads):
             newThread = ThreadPoolThread(self)
@@ -61,7 +61,7 @@ class ThreadPool:
     def getThreadCount(self):
 
         """Return the number of threads in the pool."""
-        
+
         self.__resizeLock.acquire()
         try:
             return len(self.__threads)
@@ -72,12 +72,12 @@ class ThreadPool:
 
         """Insert a task into the queue.  task must be callable;
         args and taskCallback can be None."""
-        
+
         if self.__isJoining == True:
             return False
         if not callable(task):
             return False
-        
+
         self.__taskLock.acquire()
         try:
             self.__tasks.append((task, args, taskCallback))
@@ -89,7 +89,7 @@ class ThreadPool:
 
         """ Retrieve the next task from the task queue.  For use
         only by ThreadPoolThread objects contained in the pool."""
-        
+
         self.__taskLock.acquire()
         try:
             if self.__tasks == []:
@@ -98,16 +98,16 @@ class ThreadPool:
                 return self.__tasks.pop(0)
         finally:
             self.__taskLock.release()
-    
+
     def joinAll(self, waitForTasks = True, waitForThreads = True):
 
         """ Clear the task queue and terminate all pooled threads,
         optionally allowing the tasks and threads to finish."""
-        
+
         try:
             # Mark the pool as joining to prevent any more task queueing
             self.__isJoining = True
-    
+
             # Wait for tasks to finish
             if waitForTasks:
                 while self.__tasks != []:
@@ -133,26 +133,26 @@ class ThreadPool:
             self.__resizeLock.release()
 
 
-        
+
 class ThreadPoolThread(threading.Thread):
 
     """ Pooled thread class. """
-    
+
     threadSleepTime = 0.1
 
     def __init__(self, pool):
 
         """ Initialize the thread and remember the pool. """
-        
+
         threading.Thread.__init__(self)
         self.__pool = pool
         self.__isDying = False
-        
+
     def run(self):
 
         """ Until told to quit, retrieve the next task and execute
         it, calling the callback if any.  """
-        
+
         while self.__isDying == False:
             cmd, args, callback = self.__pool.getNextTask()
             # If there's nothing to do, just sleep a bit
@@ -162,11 +162,11 @@ class ThreadPoolThread(threading.Thread):
                 cmd(args)
             else:
                 callback(cmd(args))
-    
+
     def goAway(self):
 
         """ Exit the run loop next time through."""
-        
+
         self.__isDying = True
 
 # Usage example
@@ -176,7 +176,7 @@ if __name__ == "__main__":
 
     # Sample task 1: given a start and end value, shuffle integers,
     # then sort them
-    
+
     def sortTask(data):
         print "SortTask starting for ", data
         numbers = range(data[0], data[1])
@@ -216,4 +216,3 @@ if __name__ == "__main__":
     # When all tasks are finished, allow the threads to terminate
     pool.joinAll()
     print "Process Ended:", ctime()
-    
