@@ -6,6 +6,30 @@ http://sourceforge.net/apps/mediawiki/proxytest/
 Still need help?  Ask in the forums...
 http://sourceforge.net/projects/proxytest/forums/
 
+v0.8
+1.	IMPORTANT! New Feature: I threw out my Thread file in favor
+	of the eventlet library.  Proxytester is now dependent on
+	both python and the eventlet library on non-Windows systems.
+	Does not affect Windows binary of proxytester.
+2.	Updated Feature: Proxytester now does crc32 checksums on 
+	both get and response files.
+3.	Updated Feature: I changed the testing url away from
+	http://www.google.com/ because its checksum is different
+	with each page load.
+4.	New Feature: A crc32 checksum is done on the default testing
+	url before routing through a proxy.  Then the crc32 of the
+	proxy is compared to the default crc32 result.  This means
+	that -response is not necessary to check against remote 
+	urls.  However I'm keeping the -response switch in case some
+	people wish to minimize the amount of connections made to
+	the internet by proxytester.
+5.	New Feature: fileList now takes both file paths and single
+	proxy addresses.  So if a user simply wants to test a single
+	proxy it is now much easier.
+6.	Changed how lib package loads into proxytester.
+7.	Modified UniqueList.py of lib package taking out unnecessary
+	clutter.
+
 v0.7.1 May 24, 2010
 1.	Fixed bug in wpad.dat which was introduced in v0.7
 	accidentally where wpad.dat threw an exception only creating

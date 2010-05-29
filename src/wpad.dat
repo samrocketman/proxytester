@@ -237,8 +237,8 @@ function FindProxyForURL(url, host)
 	if(ENABLE_PREDEFINED_PROXY_LIST)
 	{
 		proxylist=[
-			"69.255.143.101:8085",
-			"211.138.124.199:80"
+			"123.240.169.103:9415",
+			"217.176.200.250:80"
 		];
 	};
 	

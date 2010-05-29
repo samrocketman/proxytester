@@ -3,7 +3,7 @@
     Parses command line switches and takes appropriate action
     Author: Sam Gleske
 '''
-import re,sys,os.path
+import re,sys,os.path,binascii
 from sys import exit
 
 class SwitchParser:
@@ -14,7 +14,7 @@ class SwitchParser:
     WPAD = False
     Threads = 1
     quietMode = False
-    restrictedURL = "http://www.google.com/"
+    restrictedURL = "http://www.webstandards.org/files/acid2/test.html"
     responseFile = None
     Response = None
     simulateConnect = False
@@ -119,9 +119,8 @@ class SwitchParser:
                             self.syntaxErr()
                         f = open(self.responseFile,'r')
                         fileContents = f.read()
-                        fileContents = fileContents.strip('\r')
-                        self.Response = fileContents.split(self.NEW_LINE)
                         f.close()
+                        self.Response = binascii.crc32(fileContents)
                     if self.SWITCHES[6] == switch : #-sim simulate a working proxy list without connecting to the net
                         self.simulateConnect=True
                     if self.SWITCHES[7] == switch : #-t http timeout for proxy servers
