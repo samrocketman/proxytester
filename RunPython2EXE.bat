@@ -18,7 +18,7 @@ REM         C:\python26\ (Python 2.6 directory where python.exe is located)
 cd "%~dp0"
 
 :: Version of software: MAJOR.MINOR.PATCHSET
-set VERSION=0.7.1
+set VERSION=0.8
 
 :: Ask pesky version questions so you don't forget to update them
 echo Current MAJOR.MINOR.PATCHSET=%VERSION%
@@ -54,7 +54,7 @@ copy changelog.txt dist\
 del /s /f /q "%~dp0src\dist"
 del /s /f /q "%~dp0src\build"
 cd "%~dp0"
-del /s /q *.pyc
+::del /s /q *.pyc
 cd dist
 dir /s /b | "%zip%" a -tzip -xr!*CVS* ..\packages\proxy_tester_win32_v%VERSION%.zip
 cd ..

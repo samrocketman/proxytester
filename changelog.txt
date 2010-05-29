@@ -29,6 +29,10 @@ v0.8
 6.	Changed how lib package loads into proxytester.
 7.	Modified UniqueList.py of lib package taking out unnecessary
 	clutter.
+8.	Updated Feature: Better command escape codes (Ctrl+C).
+	Not only is it more reliable, if you cancel while processing
+	a proxy list then proxytester will process the proxies
+	which were tested up to the point of termination.
 
 v0.7.1 May 24, 2010
 1.	Fixed bug in wpad.dat which was introduced in v0.7
