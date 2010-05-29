@@ -6,13 +6,15 @@ http://sourceforge.net/apps/mediawiki/proxytest/
 Still need help?  Ask in the forums...
 http://sourceforge.net/projects/proxytest/forums/
 
-v0.8
+
+v0.8 May 29, 2010
 1.	IMPORTANT! New Feature: I threw out my Thread file in favor
 	of the eventlet library.  Proxytester is now dependent on
 	both python and the eventlet library on non-Windows systems.
 	Does not affect Windows binary of proxytester.
 2.	Updated Feature: Proxytester now does crc32 checksums on 
-	both get and response files.
+	both get and response files.  This makes the integrity
+	checking highly reliable.
 3.	Updated Feature: I changed the testing url away from
 	http://www.google.com/ because its checksum is different
 	with each page load.
@@ -33,6 +35,9 @@ v0.8
 	Not only is it more reliable, if you cancel while processing
 	a proxy list then proxytester will process the proxies
 	which were tested up to the point of termination.
+9.	Updated Feature: Updated some IP rules in wpad.dat to 
+	include other private networks like 10.x, 172.x and 192.x.
+
 
 v0.7.1 May 24, 2010
 1.	Fixed bug in wpad.dat which was introduced in v0.7
@@ -40,6 +45,7 @@ v0.7.1 May 24, 2010
 	direct connections and never using the proxies.
 2.	Fixed bug in -sim switch where null lines were tested in the
 	simulation.  This additionally threw errors with wpad.dat.
+
 
 v0.7 May 18, 2010
 1.	New Feature: proxytester command no longer dependent on -o 
@@ -59,6 +65,7 @@ v0.7 May 18, 2010
 6.	Fixed bug in UniqueList.py where __init__() function was 
 	returning a value.
 
+
 v0.6 Dec 15, 2009
 1.	New feature: excludes list option [-E inFile]
 	Excludes list is a proxy list which proxytester excludes from
@@ -75,6 +82,7 @@ v0.6 Dec 15, 2009
 3.	Updated the command line documentation to reflect additional 
 	features as well as improved the documentation with examples
 	and more descriptions.
+
 
 v0.5 Dec 6, 2009
 1.	Now there is no internal configurations.  Only takes arguments.

@@ -21,7 +21,7 @@ wpad=GenerateWPAD()
 '''
 try:
     config=SwitchParser(sys.argv)
-
+    print "Proxytester v0.8"
     print "Generate wpad.dat:", str(config.WPAD)
     if config.Threads > 1:
         print "Multi-Threading: Enabled"
@@ -181,6 +181,8 @@ except KeyboardInterrupt:
     If the proxy works then populate a new list comprising of working proxies.
 '''
 try:
+    print ""
+    print "Results:"
     from eventlet.green import urllib2
     socket.setdefaulttimeout(config.Timeout)
     pool = eventlet.GreenPool(size = config.Threads)

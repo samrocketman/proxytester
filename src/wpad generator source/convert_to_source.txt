@@ -1,0 +1,4 @@
+Find all \n and replace with \\n
+Find all tabs and replace with \t
+Macro from top line: Home ' End \ n ' , Down
+Make sure the last line is '\t\t\t'

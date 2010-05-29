@@ -142,7 +142,9 @@ function FindProxyForURL(url, host)
 	if(ENABLE_EXCLUDES)
 	{
 		ip_excludes=[
-			"192.168.*", //local router network
+			"10.*", //private address range
+			"172.*", //private address range
+			"192.*", //private address range
 			"127.*", //loopback or localhost
 			"144.118.*", //Drexel University
 			"74.125.*", //Google
@@ -237,7 +239,7 @@ function FindProxyForURL(url, host)
 	if(ENABLE_PREDEFINED_PROXY_LIST)
 	{
 		proxylist=[
-			
+			"211.138.124.199:80"
 		];
 	};
 	

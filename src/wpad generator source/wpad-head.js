@@ -70,7 +70,7 @@ whenever handling such information. This is not a flaw of this software or
 wpad.dat but more the nature of an anonymous proxy.
 
 Public Proxies and the Law
-According to U.S. law, 18 U.S.C. § 1030 (Fraud and Related Activity in 
+According to U.S. law, 18 U.S.C. Section 1030 (Fraud and Related Activity in 
 Connection with Computers) applies only when anyone who knowingly accesses a 
 computer without authorization or has knowingly exceeds his authorized access on 
 that computer. Because an opened proxy, by default, allows connections and use of 
@@ -142,7 +142,9 @@ function FindProxyForURL(url, host)
 	if(ENABLE_EXCLUDES)
 	{
 		ip_excludes=[
-			"192.168.*", //local router network
+			"10.*", //private address range
+			"172.*", //private address range
+			"192.*", //private address range
 			"127.*", //loopback or localhost
 			"144.118.*", //Drexel University
 			"74.125.*", //Google

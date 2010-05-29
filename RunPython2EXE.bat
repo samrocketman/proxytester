@@ -7,10 +7,13 @@ REM @author: Sam Gleske
 REM Here are the things you need to compile this successfully:
 REM     Python 2.6 (latest)
 REM     py2exe for Python 2.6 (latest)
+REM     eventlet (depends on greenlet)
+REM     greenlet
 REM     7-Zip command line utilitiy (make sure 7za.exe is extracted in the same directory as this batch file!)
 REM Additional notes:
 REM     You will need to add entries to your PATH environment variable (these are examples, not the same on all systems):
-REM         C:\python26\ (Python 2.6 directory where python.exe is located)
+REM         C:\python26 (Python 2.6 directory where python.exe is located)
+REM         C:\Python26\Scripts
 
 
 :: No matter where the batch file is run, run it as if being run from the same dir as RunPython2EXE.bat
@@ -26,6 +29,10 @@ echo Did you update the version number in the following files:
 set /p MessageUser="  RunPython2EXE.bat (0.1.PATCHSET) (y/n)?: "
 if /I "%MessageUser%" neq "y" Goto End
 set MessageUser=""
+set MessageUser=""
+set /p MessageUser="  proxytester.py (0.1.PATCHSET) (y/n)?: "
+if /I "%MessageUser%" neq "y" Goto End
+
 set /p MessageUser="  Setup.py (0.1.PATCHSET) (y/n)?: "
 if /I "%MessageUser%" neq "y" Goto End
 set MessageUser=""
@@ -40,7 +47,7 @@ del /s /f /q packages
 cd src
 python setup.py py2exe
 cd ..
-
+pause
 :: Put together the distrobution packages
 set zip=%~dp07za.exe
 mkdir dist
@@ -54,7 +61,7 @@ copy changelog.txt dist\
 del /s /f /q "%~dp0src\dist"
 del /s /f /q "%~dp0src\build"
 cd "%~dp0"
-::del /s /q *.pyc
+del /s /q *.pyc
 cd dist
 dir /s /b | "%zip%" a -tzip -xr!*CVS* ..\packages\proxy_tester_win32_v%VERSION%.zip
 cd ..
