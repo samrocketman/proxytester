@@ -6,14 +6,8 @@
 '''
 
 
-import urllib2
-import socket
-import sys
-import os.path
-from lib.ThreadPool import *
-from lib.SwitchParser import *
-from lib.UniqueList import UniqueList
-from lib.GenerateWPAD import *
+import urllib2,socket,sys,os.path
+from lib import *
 from time import sleep
 from time import ctime
 from sys import exit
