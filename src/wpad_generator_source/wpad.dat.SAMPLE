@@ -147,6 +147,7 @@ function FindProxyForURL(url, host)
 			"192.*", //private address range
 			"127.*", //loopback or localhost
 			"144.118.*", //Drexel University
+			"129.25.*", //Drexel University
 			"74.125.*", //Google
 			"67.195.*", //Yahoo Inc
 			"170.201.*", //PNC Bank
