@@ -1,0 +1,257 @@
+testing
+javascript:(function(){var domain=document.location.toString().split("//")[1].split("/")[0];alert(domain);})()
+javascript:(function(){var attrib="class",attval="sunblue";for(var i=0;i<document.getElementsByTagName("table").length;i++)if(document.getElementsByTagName("table")[i].getAttribute(attrib)==attval)alert(i);})()
+
+
+http://tools.rosinstrument.com/proxy/
+javascript:(function(){
+var i=0,b="";
+var index=7;
+var re=/(stat)/i;
+while(i<document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr").length)
+{
+server=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.nextSibling.textContent;
+port=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.nextSibling.nextSibling.textContent;
+if(!server.match(re))
+b+=server+":"+port+"<br>";
+i++;
+}
+var win=window.open("","proxies");
+win.document.open("text/html");
+win.document.write(b);
+})()
+
+Run this on the front page.
+javascript:(function(){
+var links=document.getElementsByTagName("a"),b="",country=prompt("Choose a country code otherwise leave blank to get all countries");
+for(var i=0;i<links.length;i++)
+{
+server_info=links[i].title.split(" ");
+if(server_info[1]=="ANONYM")
+{
+b+=(country)?(country.toLowerCase()==server_info[2])?server_info[0]+"<br>":"":server_info[0]+"<br>";
+}
+}
+var win=window.open("","proxies1");
+win.document.open("text/html");
+win.document.write(b);
+})()
+
+
+
+
+
+
+testing
+javascript:(function(){var attrib="class",attval="sunblue";for(var i=0;i<document.getElementsByTagName("table").length;i++)if(document.getElementsByTagName("table")[i].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[0].firstChild.nextSibling.textContent=="Proxy:Port")alert(i);})()
+
+http://www.proxy-list.org/en/index.php
+javascript:(function(){
+var i=0,b="";
+var index=15;
+while(i<document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr").length)
+{
+var type=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.nextSibling.nextSibling.textContent;
+if(type == "Anon." || type == "Elite")
+{
+var server=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.textContent;
+b+=server+"<br>";
+}
+i++;
+}
+var win=window.open("","proxies2");
+win.document.write(b);
+})()
+
+
+
+
+
+testing
+javascript:alert(document.getElementsByClassName("odd")[0].firstChild.nextSibling.textContent.split('document.write(":"+v+j+v+j)').toString().replace(/,/g, ""))
+
+http://nntime.com/
+javascript:(function(){
+var arr1=document.getElementsByClassName("odd"),arr2=document.getElementsByClassName("even"),b="";
+for(var i=0;i<arr1.length;i++)
+{
+var server=arr1[i].firstChild.nextSibling.textContent.replace(/(document[.]write)[(].*[)]/gi, "");
+b+=server+"<br>";
+}
+for(var i=0;i<arr2.length;i++)
+{
+var server=arr2[i].firstChild.nextSibling.textContent.replace(/(document[.]write)[(].*[)]/gi, "");
+b+=server+"<br>";
+}
+var win=window.open("","proxies3");
+win.document.write(b);
+})()
+
+
+
+
+
+testing
+javascript:alert(document.getElementsByClassName("cells")[0].getElementsByTagName("td")[0].textContent)
+javascript:alert(document.getElementsByClassName("cells")[0].getElementsByTagName("td")[3].textContent)
+
+http://www.proxys.com.ar/
+javascript:(function(){
+var arr=document.getElementsByClassName("cells"),b="";
+for(var i=0;i<arr.length;i++)
+{
+var type=arr[i].getElementsByTagName("td")[3].textContent;
+if(type=="high anonymity"||type=="anonymous")
+{
+var server=arr[i].getElementsByTagName("td")[1].textContent;
+var port=arr[i].getElementsByTagName("td")[2].textContent;
+b+=server+":"+port+"<br>";
+}
+}
+var win=window.open("","proxies4");
+win.document.write(b);
+})()
+
+
+
+
+
+testing
+javascript:alert(document.getElementsByTagName("table")[4].getElementsByTagName("tr")[2].getElementsByTagName("td")[0].textContent)
+javascript:alert(document.getElementsByTagName("table")[4].getElementsByTagName("tr")[8].getElementsByTagName("td")[2].textContent)
+
+http://www.mrhinkydink.com/proxies.htm
+javascript:(function(){
+var re = /(Anon)/gi;
+var arr=document.getElementsByTagName("table")[4].getElementsByTagName("tr"),b="";
+for(var i=0;i<arr.length;i++)
+{
+if(arr[i].getElementsByTagName("td").length == 8)
+{
+var type=arr[i].getElementsByTagName("td")[2].textContent;
+if(type!="Type"&&re.test(type))
+{
+var server=arr[i].getElementsByTagName("td")[0].textContent;
+var port=arr[i].getElementsByTagName("td")[1].textContent;
+b+=server+":"+port+"<br>";
+}
+}
+}
+var win=window.open("","proxies5");
+win.document.write(b);
+})()
+
+
+
+All functions combined!
+javascript:(function(){
+var domain=document.location.toString().split("//")[1].split("/")[0];
+if(domain=="tools.rosinstrument.com")
+{
+if(document.location.toString().split("/")[document.location.toString().split("/").length-1]!="")
+{
+var i=0,b="";
+var index=7;
+var re=/(stat)/i;
+while(i<document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr").length)
+{
+server=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.nextSibling.textContent;
+port=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.nextSibling.nextSibling.textContent;
+if(!server.match(re))
+b+=server+":"+port+"<br>";
+i++;
+}
+var win=window.open("","proxies1");
+win.document.open("text/html");
+win.document.write(b);
+}
+else
+{
+var links=document.getElementsByTagName("a"),b="",country=prompt("Choose a country code otherwise leave blank to get all countries");
+for(var i=0;i<links.length;i++)
+{
+server_info=links[i].title.split(" ");
+if(server_info[1]=="ANONYM")
+{
+b+=(country)?(country.toLowerCase()==server_info[2])?server_info[0]+"<br>":"":server_info[0]+"<br>";
+}
+}
+var win=window.open("","proxies1");
+win.document.open("text/html");
+win.document.write(b);
+}
+}
+else if(domain=="www.proxy-list.org")
+{
+var i=0,b="";
+var index=15;
+while(i<document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr").length)
+{
+var type=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.nextSibling.nextSibling.textContent;
+if(type == "Anon." || type == "Elite")
+{
+var server=document.getElementsByTagName("table")[index].getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].firstChild.textContent;
+b+=server+"<br>";
+}
+i++;
+}
+var win=window.open("","proxies2");
+win.document.write(b);
+}
+else if(domain=="nntime.com")
+{
+var arr1=document.getElementsByClassName("odd"),arr2=document.getElementsByClassName("even"),b="";
+for(var i=0;i<arr1.length;i++)
+{
+var server=arr1[i].firstChild.nextSibling.textContent.replace(/(document[.]write)[(].*[)]/gi, "");
+b+=server+"<br>";
+}
+for(var i=0;i<arr2.length;i++)
+{
+var server=arr2[i].firstChild.nextSibling.textContent.replace(/(document[.]write)[(].*[)]/gi, "");
+b+=server+"<br>";
+}
+var win=window.open("","proxies3");
+win.document.write(b);
+}
+else if(domain=="www.proxys.com.ar")
+{
+var arr=document.getElementsByClassName("cells"),b="";
+for(var i=0;i<arr.length;i++)
+{
+var type=arr[i].getElementsByTagName("td")[3].textContent;
+if(type=="high anonymity"||type=="anonymous")
+{
+var server=arr[i].getElementsByTagName("td")[1].textContent;
+var port=arr[i].getElementsByTagName("td")[2].textContent;
+b+=server+":"+port+"<br>";
+}
+}
+var win=window.open("","proxies4");
+win.document.write(b);
+}
+else if(domain=="www.mrhinkydink.com")
+{
+var re = /(Anon)/gi;
+var arr=document.getElementsByTagName("table")[4].getElementsByTagName("tr"),b="";
+for(var i=0;i<arr.length;i++)
+{
+if(arr[i].getElementsByTagName("td").length == 8)
+{
+var type=arr[i].getElementsByTagName("td")[2].textContent;
+if(type!="Type"&&re.test(type))
+{
+var server=arr[i].getElementsByTagName("td")[0].textContent;
+var port=arr[i].getElementsByTagName("td")[1].textContent;
+b+=server+":"+port+"<br>";
+}
+}
+}
+var win=window.open("","proxies5");
+win.document.write(b);
+}
+else
+{
+alert("No proxy domain found!");
+}
+})()

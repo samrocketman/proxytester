@@ -1,0 +1,133 @@
+This software was written in Python and JavaScript!
+
+Need help?  Check out the wiki...
+http://sourceforge.net/apps/mediawiki/proxytest/
+
+Still need help?  Ask in the forums...
+http://sourceforge.net/projects/proxytest/forums/
+
+
+v0.8 May 29, 2010
+1.	IMPORTANT! New Feature: I threw out my Thread file in favor
+	of the eventlet library.  Proxytester is now dependent on
+	both python and the eventlet library on non-Windows systems.
+	Does not affect Windows binary of proxytester.
+2.	Updated Feature: Proxytester now does crc32 checksums on 
+	both get and response files.  This makes the integrity
+	checking highly reliable.
+3.	Updated Feature: I changed the testing url away from
+	http://www.google.com/ because its checksum is different
+	with each page load.
+4.	New Feature: A crc32 checksum is done on the default testing
+	url before routing through a proxy.  Then the crc32 of the
+	proxy is compared to the default crc32 result.  This means
+	that -response is not necessary to check against remote 
+	urls.  However I'm keeping the -response switch in case some
+	people wish to minimize the amount of connections made to
+	the internet by proxytester.
+5.	New Feature: fileList now takes both file paths and single
+	proxy addresses.  So if a user simply wants to test a single
+	proxy it is now much easier.
+6.	Changed how lib package loads into proxytester.
+7.	Modified UniqueList.py of lib package taking out unnecessary
+	clutter.
+8.	Updated Feature: Better command escape codes (Ctrl+C).
+	Not only is it more reliable, if you cancel while processing
+	a proxy list then proxytester will process the proxies
+	which were tested up to the point of termination.
+9.	Updated Feature: Updated some IP rules in wpad.dat to 
+	include other private networks like 10.x, 172.x and 192.x.
+
+
+v0.7.1 May 24, 2010
+1.	Fixed bug in wpad.dat which was introduced in v0.7
+	accidentally where wpad.dat threw an exception only creating
+	direct connections and never using the proxies.
+2.	Fixed bug in -sim switch where null lines were tested in the
+	simulation.  This additionally threw errors with wpad.dat.
+
+
+v0.7 May 18, 2010
+1.	New Feature: proxytester command no longer dependent on -o 
+	switch.
+2.	New Feature: -sim switch to simulate working proxies without
+	connecting to the internet.  This makes it easy to generate
+	wpad.dat files from existing proxy lists quickly.  This 
+	feature also makes automatic generating of an excludes list
+	very easy where this was not possible in previous versions.
+3.	Made a few efficiency changes to the -response switch on how
+	it strips carriage returns.
+4.	Updated the command line documentation adding the title of the
+	software and the version number to it.  Also updated adding
+	-sim switch to documentation with command examples.
+5.	Fixed bug in wpad.dat script where it was possible for a null 
+	proxy to be selected.
+6.	Fixed bug in UniqueList.py where __init__() function was 
+	returning a value.
+
+
+v0.6 Dec 15, 2009
+1.	New feature: excludes list option [-E inFile]
+	Excludes list is a proxy list which proxytester excludes from
+	testing and assumes to be bad.
+2.	New feature: custom response [-RESPONSE inFile]
+	Custom response is a remote page to be read and compared to. If
+	the page is different then the proxy server is considered bad 
+	but if the page is the same then the proxy server is good. I got
+	the idea to do this because I kept getting proxy servers that 
+	required some kind of credentials in an HTML format but if you
+	test against a page response then it means the proxy server is
+	more likely to be working. [-RESPONSE inFile] is normally used
+	with [-GET url] but not always.
+3.	Updated the command line documentation to reflect additional 
+	features as well as improved the documentation with examples
+	and more descriptions.
+
+
+v0.5 Dec 6, 2009
+1.	Now there is no internal configurations.  Only takes arguments.
+2.	Windows binary executable now available.
+3.	Can add more than 1 file as input at the end of the line instead
+	of just processing a single file.
+4.	New features: Optional multithreading, generate wpad.dat, set 
+	proxy timeout, custom URL to test proxy servers against.  The
+	custom URL is for purposes such as attempting to access a
+	restricted site.
+5.	Fixed bug where pressing Ctrl+C did not stop the program.
+
+
+v0.4 Dec 03, 2009
+1.	Now uses multithreading to process requests faster.  Processes
+	4 requests at a time like a web browser.  Now it processes 
+	2000 proxy servers in around 23 minutes when before it took
+	hours.
+2.	Added a new library for pooling thread requests.
+3.	Now with timestamping.  Shows you when the script started, when 
+	it ended, and how long it ran.
+4.	Other minor bug fixes
+5.	Updated the rules for the generated wpad.dat
+6.	Updated generate_wpad.bat to remove binary pyc files
+
+
+v0.3 Dec 01, 2009
+1.	MAJOR bug fixes for excluding protocols in wpad-head.js. Excludes 
+	weren't previously working at all!
+2.	Simplified some methods by defining additional functions in 
+	wpad-head.js
+3.	Further optimized the process of request testing for excludes by 
+	reordering when the excludes are called so proxying is now faster!
+4.	Implemented advanced logging so if a user encounters errors they 
+	can report it to me with sufficient information.
+5.	Added a few configuration options to wpad.dat so users can easily
+	download and customize it for themselves own.
+6.	Added thorough documentation to wpad.dat so users can easily 
+	understand the options
+7.	Created some bookmarklets to assist mining a list of proxies from 
+	online sources which are located in the lists folder.
+
+v0.2 Dec 01, 2009
+1.	Added a new option RESTRICTED_URL to check-status-proxy-address.py
+2.	Spacing change to wpad-foot.js
+
+v0.1 Nov 30, 2009
+1.	First Release
